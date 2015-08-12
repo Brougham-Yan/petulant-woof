@@ -1,6 +1,11 @@
 
 [projectfiles]
 FILE_0=main.agc;-1
+FILE_1=player.agc;-1
 
 [files]
-FILE_NAME_0=1;main.agc;0;1
+FILE_NAME_0=1;main.agc;2334;5
+FILE_NAME_1=0;player.agc;0;6
+
+[project]
+description=
