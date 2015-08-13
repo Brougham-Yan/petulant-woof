@@ -1,4 +1,5 @@
 #include "player.agc"
+#include "hazard.agc"
 // Project: Strawbirdie+ 
 // Created: 2015-08-11
 
@@ -30,10 +31,12 @@ type player
 endtype
 
 global gSpeed#
-gSpeed# = 11
+gSpeed# = 15
 global timeSinceLastTick# = 0
+global gGameTime# = 0
 
-
+global hazardNumber
+hazardNumber = CreateText("")
 
 //starting functions
 SetSyncRate(60, 0)
@@ -66,6 +69,7 @@ gosub hideMenus
 createPlayer()
 createHazards()
 lastTick# = timer()
+gGameTime# = lastTick#
 do
 	timeSinceLastTick# = timer() - lastTick#
 	lastTick# = timer()
@@ -89,7 +93,7 @@ do
 	//if(GetSpriteY(p1.sprite) > 85) then SetSpritePosition(p1.sprite, 10, 85)
 	updateHazards()
 	
-    Print( ScreenFPS() )
+    //Print( ScreenFPS() )
     Sync()
 	
 loop
@@ -98,33 +102,4 @@ hideMenus:
 	SetSpriteVisible(start, 0)
 return
 
-function createHazards()
-    
-    for i = 0 to 5
-		resetHazard(i)
-	next i
-endfunction
 
-function resetHazard( i as integer)
-		RNG = random(0, 99)
-		if RNG < 80
-			hazards[i].hazardType = 0 //strawberry
-			hazards[i].sprite = CreateSprite(LoadImage("strawberry.png"))
-			hazards[i].speed# = gSpeed#
-			SetSpriteSize(hazards[i].sprite, -1, 10)
-		else
-			hazards[i].hazardType = 1 //bird
-			hazards[i].sprite = CreateSprite(LoadImage("monster.png"))
-			hazards[i].speed# = gSpeed# * 1.2
-			SetSpriteSize(hazards[i].sprite, -1, 15)
-		endif
-		SetSpritePosition(hazards[i].sprite, random(100,200), random(0, 90))
-			
-endfunction
-
-function updateHazards()
-	for i = 0 to 5
-		SetSpritePosition(hazards[i].sprite, GetSpriteX(hazards[i].sprite) - (hazards[i].speed# * timeSinceLastTick#), GetSpriteY(hazards[i].sprite))
-		if GetSpriteX(hazards[i].sprite) < -20 then resetHazard(i)
-	next i
-endfunction
