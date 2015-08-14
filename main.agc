@@ -27,6 +27,7 @@ endtype
 type player
 	sprite as integer
 	health as integer
+	score as integer
 	velocity#
 endtype
 

@@ -10,6 +10,7 @@ function resetHazard( i as integer)
 	hazardClock# = ( timer() - gGameTime#)
 	hazardChance# = 80 * ( hazardClock# / 180) * 0.9
 	SetTextString(hazardNumber, Str(hazardChance#))
+	DeleteSprite(hazards[i].sprite)
 		RNG = random(0, 99)
 		if RNG > hazardChance#
 			hazards[i].hazardType = 0 //strawberry
@@ -29,6 +30,15 @@ endfunction
 function updateHazards()
 	for i = 0 to 5
 		SetSpritePosition(hazards[i].sprite, GetSpriteX(hazards[i].sprite) - (hazards[i].speed# * timeSinceLastTick#), GetSpriteY(hazards[i].sprite))
+		if GetSpriteCollision(hazards[i].sprite, p1.sprite) = 1
+			collisionUpdate(hazards[i].hazardType)
+			resetHazard(i)
+		endif
 		if GetSpriteX(hazards[i].sprite) < -20 then resetHazard(i)
 	next i
+endfunction
+
+function collisionUpdate(i as integer)
+	if i = 0 then inc p1.score
+	if i = 1 then dec p1.health
 endfunction
