@@ -33,8 +33,10 @@ endtype
 
 global gSpeed#
 gSpeed# = 15
+global lastTick# = 0
 global timeSinceLastTick# = 0
 global gGameTime# = 0
+global gGameMode = 0
 
 global hazardNumber
 hazardNumber = CreateText("")
@@ -46,6 +48,7 @@ SetRandomSeed(GetMilliseconds()) //seed the rng
 global p1 as player
 global hazards as hazard[6]
 //image = LoadImage("frame-1.png")
+global start as integer
 start = CreateSprite(0)
 SetSpritePosition(start, 50, 20)
 SetSpriteSize(start, 20, 10)
@@ -55,25 +58,22 @@ DeleteSprite(splash) //end loading
 
 menu:
 do //main game loop
-    
-	if GetPointerState() = 1
-		if GetSpriteHit(GetPointerX(), GetPointerY()) = start then goto mainGame
+    if gGameMode = 0
+		if GetPointerState() = 1
+			if GetSpriteHit(GetPointerX(), GetPointerY()) = start then startGame()
+		endif
     endif
-    
-    
+    if gGameMode = 1 then mainGame()
     print(screenFPS())
 	Sync()
 loop
 
-mainGame:
-gosub hideMenus
-createPlayer()
-createHazards()
-lastTick# = timer()
-gGameTime# = lastTick#
-do
-	timeSinceLastTick# = timer() - lastTick#
+
+function mainGame()
+	previousTick# = lastTick#
 	lastTick# = timer()
+	timeSinceLastTick# = lastTick# - previousTick#
+	print(str(timeSinceLastTick#))
     if GetPointerState() = 1
 		dec p1.velocity#, (75 * timeSinceLastTick#)
 	else
@@ -95,12 +95,14 @@ do
 	updateHazards()
 	
     //Print( ScreenFPS() )
-    Sync()
+    //Sync()
+endfunction	
 	
-loop
-
-hideMenus:
-	SetSpriteVisible(start, 0)
-return
-
-
+function startGame()
+	deleteSprite(start)
+	createPlayer()
+	createHazards()
+	lastTick# = timer()
+	gGameTime# = lastTick#
+	gGameMode = 1
+endfunction
