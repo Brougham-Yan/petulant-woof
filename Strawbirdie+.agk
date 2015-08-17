@@ -5,7 +5,7 @@ FILE_1=player.agc;-1
 FILE_2=hazard.agc;-1
 
 [files]
-FILE_NAME_0=1;main.agc;738;1
+FILE_NAME_0=1;main.agc;837;1
 FILE_NAME_1=0;player.agc;184;2
 FILE_NAME_2=0;hazard.agc;423;0
 

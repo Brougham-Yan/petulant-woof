@@ -36,8 +36,9 @@ gSpeed# = 15
 global lastTick# = 0
 global timeSinceLastTick# = 0
 global gGameTime# = 0
-global gGameMode = 0
-
+global gGameMode
+					
+													//temporary debug stuff
 global hazardNumber
 hazardNumber = CreateText("")
 
@@ -49,20 +50,13 @@ global p1 as player
 global hazards as hazard[6]
 //image = LoadImage("frame-1.png")
 global start as integer
-start = CreateSprite(0)
-SetSpritePosition(start, 50, 20)
-SetSpriteSize(start, 20, 10)
-
+showMenu()
 
 DeleteSprite(splash) //end loading
 
-menu:
+
 do //main game loop
-    if gGameMode = 0
-		if GetPointerState() = 1
-			if GetSpriteHit(GetPointerX(), GetPointerY()) = start then startGame()
-		endif
-    endif
+    if gGameMode = 0 then gameMenu()
     if gGameMode = 1 then mainGame()
     print(screenFPS())
 	Sync()
@@ -93,9 +87,7 @@ function mainGame()
 	//if(getSpriteY(p1.sprite) < 0) then SetSpritePosition(p1.sprite, 10, 0)
 	//if(GetSpriteY(p1.sprite) > 85) then SetSpritePosition(p1.sprite, 10, 85)
 	updateHazards()
-	
-    //Print( ScreenFPS() )
-    //Sync()
+
 endfunction	
 	
 function startGame()
@@ -105,4 +97,18 @@ function startGame()
 	lastTick# = timer()
 	gGameTime# = lastTick#
 	gGameMode = 1
+endfunction
+
+function gameMenu()
+	if GetPointerState() = 1
+		if GetSpriteHit(GetPointerX(), GetPointerY()) = start then startGame()
+	endif
+    //endif
+endfunction
+
+function showMenu()
+	start = CreateSprite(0)
+	SetSpritePosition(start, 50, 20)
+	SetSpriteSize(start, 20, 10)
+	gGameMode = 0
 endfunction
