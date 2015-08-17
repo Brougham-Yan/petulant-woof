@@ -21,7 +21,6 @@ type hazard
 	sprite as integer
 	hazardType as integer
 	speed#
-	notcolliding as integer
 endtype
 
 type player
@@ -29,18 +28,31 @@ type player
 	health as integer
 	score as integer
 	velocity#
+	invincibleTime#
+endtype
+
+type spritesheet
+	player as integer
+	strawberry as integer
+	monster as integer
+	cloud as integer
+	popsicle as integer
 endtype
 
 global gSpeed#
-gSpeed# = 15
+gSpeed# = 20
 global lastTick# = 0
 global timeSinceLastTick# = 0
 global gGameTime# = 0
 global gGameMode
+global gNextSpawn#
 					
+global sprites as spritesheet
+loadSprites()					
 													//temporary debug stuff
-global hazardNumber
-hazardNumber = CreateText("")
+global hazardChance#
+//global hazardNumber
+//hazardNumber = CreateText("")
 
 //starting functions
 SetSyncRate(60, 0)
@@ -58,7 +70,7 @@ DeleteSprite(splash) //end loading
 do //main game loop
     if gGameMode = 0 then gameMenu()
     if gGameMode = 1 then mainGame()
-    print(screenFPS())
+    debugInfo()
 	Sync()
 loop
 
@@ -67,7 +79,7 @@ function mainGame()
 	previousTick# = lastTick#
 	lastTick# = timer()
 	timeSinceLastTick# = lastTick# - previousTick#
-	print(str(timeSinceLastTick#))
+	inc gGameTime#, timeSinceLastTick#
     if GetPointerState() = 1
 		dec p1.velocity#, (75 * timeSinceLastTick#)
 	else
@@ -82,8 +94,19 @@ function mainGame()
 		p1.velocity# = (0 - p1.velocity# * 0.9)
 		if p1.velocity# > -35 then p1.velocity# = -35
 	endif
+	SetSpriteAngle(p1.sprite, p1.velocity#/1.5)
 	
-	SetSpritePosition(p1.sprite, 10, GetSpriteY(p1.sprite) + (p1.velocity# * timeSinceLastTick#))
+	SetSpritePosition(p1.sprite, 25, GetSpriteY(p1.sprite) + (p1.velocity# * timeSinceLastTick#))
+	
+	if p1.invincibleTime# > 0
+		if mod(timer()*10, 3) = 0
+			SetSpriteColorAlpha(p1.sprite, 0)
+		else
+			SetSpriteColorAlpha(p1.sprite, 255)
+			dec p1.invincibleTime#, timeSinceLastTick#
+		endif
+	endif
+	
 	//if(getSpriteY(p1.sprite) < 0) then SetSpritePosition(p1.sprite, 10, 0)
 	//if(GetSpriteY(p1.sprite) > 85) then SetSpritePosition(p1.sprite, 10, 85)
 	updateHazards()
@@ -95,7 +118,8 @@ function startGame()
 	createPlayer()
 	createHazards()
 	lastTick# = timer()
-	gGameTime# = lastTick#
+	gNextSpawn# = 1
+	gGameTime# = 0
 	gGameMode = 1
 endfunction
 
@@ -111,4 +135,39 @@ function showMenu()
 	SetSpritePosition(start, 50, 20)
 	SetSpriteSize(start, 20, 10)
 	gGameMode = 0
+endfunction
+
+function loadSprites()
+	sprites.player = LoadImage("frame-1.png")
+	sprites.monster = LoadImage("monster.png")
+	sprites.strawberry = LoadImage("strawberry.png")
+	sprites.cloud = LoadImage("cloud.png")
+	sprites.popsicle = LoadImage("cherry.png")
+endfunction
+
+function gameOver()
+	for i = 0 to 5
+		DeleteSprite(hazards[i].sprite)
+	next i
+	DeleteSprite(p1.sprite)
+	showMenu()
+endfunction
+
+function debugInfo()
+	PrintC("FPS:")
+	print(screenFPS())
+	printC("last tick:")
+	print(str(timeSinceLastTick#))
+	printC("hazard chance:")
+	print(str(hazardChance#))
+	printC("next spawn:")
+	print(str(gNextSpawn#))
+	printC("game time:")
+	print(str(gGameTime#))
+	printC("score:")
+	print(str(p1.score))
+	printC("health:")
+	print(str(p1.health))
+	printC("i-time:")
+	print(str(p1.invincibleTime#))
 endfunction
