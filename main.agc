@@ -39,6 +39,11 @@ type spritesheet
 	popsicle as integer
 endtype
 
+type buttonsheet
+	start as integer
+	pause as integer
+endtype
+
 global gSpeed#
 gSpeed# = 20
 global lastTick# = 0
@@ -48,6 +53,7 @@ global gGameMode
 global gNextSpawn#
 					
 global sprites as spritesheet
+global buttons as buttonsheet
 loadSprites()					
 													//temporary debug stuff
 global hazardChance#
@@ -70,12 +76,14 @@ DeleteSprite(splash) //end loading
 do //main game loop
     if gGameMode = 0 then gameMenu()
     if gGameMode = 1 then mainGame()
+    if gGameMode = 2 then gamePaused()
     debugInfo()
 	Sync()
 loop
 
 
 function mainGame()
+	if GetRawKeyPressed(27) = 1 then pause() //escape on PC/back button on Android
 	previousTick# = lastTick#
 	lastTick# = timer()
 	timeSinceLastTick# = lastTick# - previousTick#
@@ -114,7 +122,7 @@ function mainGame()
 endfunction	
 	
 function startGame()
-	deleteSprite(start)
+	deleteSprite(buttons.start)
 	createPlayer()
 	createHazards()
 	lastTick# = timer()
@@ -125,15 +133,14 @@ endfunction
 
 function gameMenu()
 	if GetPointerState() = 1
-		if GetSpriteHit(GetPointerX(), GetPointerY()) = start then startGame()
+		if GetSpriteHit(GetPointerX(), GetPointerY()) = buttons.start then startGame()
 	endif
-    //endif
 endfunction
 
 function showMenu()
-	start = CreateSprite(0)
-	SetSpritePosition(start, 50, 20)
-	SetSpriteSize(start, 20, 10)
+	buttons.start = CreateSprite(0)
+	SetSpritePosition(buttons.start, 50, 20)
+	SetSpriteSize(buttons.start, 20, 10)
 	gGameMode = 0
 endfunction
 
@@ -151,6 +158,23 @@ function gameOver()
 	next i
 	DeleteSprite(p1.sprite)
 	showMenu()
+endfunction
+
+function pause()
+	gGameMode = 2
+	buttons.pause = CreateSprite(0)
+	SetSpriteDepth(buttons.pause, 2)
+	SetSpriteSize(buttons.pause, 100, 100)
+endfunction
+
+function gamePaused()
+	if GetPointerState() = 1
+		if GetSpriteHit(GetPointerX(), GetPointerY()) = buttons.pause
+			DeleteSprite(buttons.pause)
+			lastTick# = timer()
+			gGameMode = 1
+		endif
+	endif
 endfunction
 
 function debugInfo()
