@@ -5,9 +5,9 @@ FILE_1=player.agc;-1
 FILE_2=hazard.agc;-1
 
 [files]
-FILE_NAME_0=1;main.agc;4123;1
+FILE_NAME_0=0;main.agc;539;1
 FILE_NAME_1=0;player.agc;186;2
-FILE_NAME_2=0;hazard.agc;3101;0
+FILE_NAME_2=1;hazard.agc;1540;0
 
 [project]
 description=

@@ -21,6 +21,7 @@ type hazard
 	sprite as integer
 	hazardType as integer
 	speed#
+	
 endtype
 
 type player
