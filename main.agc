@@ -1,5 +1,6 @@
 #include "player.agc"
 #include "hazard.agc"
+#include "file.agc"
 // Project: Strawbirdie+ 
 // Created: 2015-08-11
 
@@ -21,7 +22,6 @@ type hazard
 	sprite as integer
 	hazardType as integer
 	speed#
-	
 endtype
 
 type player
@@ -52,6 +52,8 @@ global timeSinceLastTick# = 0
 global gGameTime# = 0
 global gGameMode
 global gNextSpawn#
+global gHighScore as integer
+readScores()
 					
 global sprites as spritesheet
 global buttons as buttonsheet
@@ -89,6 +91,7 @@ function mainGame()
 	lastTick# = timer()
 	timeSinceLastTick# = lastTick# - previousTick#
 	inc gGameTime#, timeSinceLastTick#
+	inc p1.score, (timeSinceLastTick# * 100)
     if GetPointerState() = 1
 		dec p1.velocity#, (75 * timeSinceLastTick#)
 	else
@@ -159,6 +162,10 @@ function gameOver()
 	next i
 	DeleteSprite(p1.sprite)
 	showMenu()
+	if p1.score > gHighScore
+		gHighScore = p1.score
+		writeScores()
+	endif
 endfunction
 
 function pause()
@@ -191,6 +198,8 @@ function debugInfo()
 	print(str(gGameTime#))
 	printC("score:")
 	print(str(p1.score))
+	printC("highscore:")
+	print(str(gHighScore))
 	printC("health:")
 	print(str(p1.health))
 	printC("i-time:")
