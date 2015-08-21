@@ -43,6 +43,7 @@ endtype
 type buttonsheet
 	start as integer
 	pause as integer
+	quit as integer
 endtype
 
 global gSpeed#
@@ -50,6 +51,7 @@ gSpeed# = 20
 global lastTick# = 0
 global timeSinceLastTick# = 0
 global gGameTime# = 0
+global gNextLevel# = 45
 global gGameMode
 global gNextSpawn#
 global gHighScore as integer
@@ -68,7 +70,8 @@ SetSyncRate(60, 0)
 SetRandomSeed(GetMilliseconds()) //seed the rng
 //player = createPlayer()
 global p1 as player
-global hazards as hazard[6]
+global hazards as hazard[10]
+global gActiveHazards as integer
 //image = LoadImage("frame-1.png")
 global start as integer
 showMenu()
@@ -91,6 +94,7 @@ function mainGame()
 	lastTick# = timer()
 	timeSinceLastTick# = lastTick# - previousTick#
 	inc gGameTime#, timeSinceLastTick#
+	dec gNextLevel#, timeSinceLastTick#
 	inc p1.score, (timeSinceLastTick# * 100)
     if GetPointerState() = 1
 		dec p1.velocity#, (75 * timeSinceLastTick#)
@@ -121,14 +125,19 @@ function mainGame()
 	
 	//if(getSpriteY(p1.sprite) < 0) then SetSpritePosition(p1.sprite, 10, 0)
 	//if(GetSpriteY(p1.sprite) > 85) then SetSpritePosition(p1.sprite, 10, 85)
+	
+	if gNextLevel# < 0
+		if gActiveHazards < 10 then inc gActiveHazards
+		gNextLevel# = 45
+	endif
 	updateHazards()
-
 endfunction	
 	
 function startGame()
 	deleteSprite(buttons.start)
 	createPlayer()
 	createHazards()
+	gActiveHazards = 6
 	lastTick# = timer()
 	gNextSpawn# = 1
 	gGameTime# = 0
@@ -157,7 +166,7 @@ function loadSprites()
 endfunction
 
 function gameOver()
-	for i = 0 to 5
+	for i = 0 to 9
 		DeleteSprite(hazards[i].sprite)
 	next i
 	DeleteSprite(p1.sprite)
@@ -173,15 +182,23 @@ function pause()
 	buttons.pause = CreateSprite(0)
 	SetSpriteDepth(buttons.pause, 2)
 	SetSpriteSize(buttons.pause, 100, 100)
+	buttons.quit = CreateSprite(0)
+	SetSpriteDepth(buttons.quit, 1)
+	setspritesize(buttons.quit, 20, -1)
+	SetSpritePosition(buttons.quit, 40, 70)
+	setspritecolor(buttons.quit, 255, 0, 0, 255)
 endfunction
 
 function gamePaused()
 	if GetPointerState() = 1
-		if GetSpriteHit(GetPointerX(), GetPointerY()) = buttons.pause
-			DeleteSprite(buttons.pause)
+		if GetSpriteHit(GetPointerX(), GetPointerY()) = buttons.quit
+			gameOver()
+		elseif GetSpriteHit(GetPointerX(), GetPointerY()) = buttons.pause
 			lastTick# = timer()
 			gGameMode = 1
 		endif
+		DeleteSprite(buttons.pause)
+		DeleteSprite(buttons.quit)
 	endif
 endfunction
 
@@ -204,4 +221,8 @@ function debugInfo()
 	print(str(p1.health))
 	printC("i-time:")
 	print(str(p1.invincibleTime#))
+	printC("nextlevel:")
+	print(str(gNextLevel#))
+	printC("activehazards:")
+	print(str(gActiveHazards))
 endfunction

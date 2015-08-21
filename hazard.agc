@@ -1,6 +1,6 @@
 function createHazards()
     
-    for i = 0 to 5
+    for i = 0 to 9
 		hazards[i].hazardType = -1
 	next i
 	
@@ -40,13 +40,17 @@ function resetHazard( i as integer)
 			hazards[i].hazardType = 1 //bird
 			hazards[i].sprite = CreateSprite(sprites.monster)
 			SetSpriteSize(hazards[i].sprite, -1, 15)
-			if random(0,9) < 3
+			if random(0,9) < 2
 				SetSpritePosition(hazards[i].sprite, -10, random(5, 80))
 				hazards[i].speed# = -gSpeed# * 0.4
 			else
 				SetSpritePosition(hazards[i].sprite, 110, random(5, 80))
-				hazards[i].speed# = gSpeed# * 1.4
-				SetSpriteFlip(hazards[i].sprite, 1, 0)
+				if random(0,6) < 2
+					hazards[i].speed# = gSpeed# * 0.4
+				else
+					hazards[i].speed# = gSpeed# * 1.4
+					SetSpriteFlip(hazards[i].sprite, 1, 0)
+				endif
 			endif
 		endif
 	SetSpriteDepth(hazards[i].sprite, 50)
@@ -58,7 +62,7 @@ function resetHazard( i as integer)
 endfunction
 
 function updateHazards()
-	for i = 0 to 5
+	for i = 0 to (gActiveHazards - 1)
 		if hazards[i].hazardType = -1
 		else
 			if hazards[i].hazardType = -2
@@ -134,7 +138,7 @@ function setHazardInactive(i as integer)
 endfunction
 
 function spawnHazard()
-	for i = 0 to 5
+	for i = 0 to (gActiveHazards - 1)
 		if hazards[i].hazardType = -1
 			resetHazard(i)
 			gNextSpawn# = random(5, 20)
