@@ -44,6 +44,15 @@ type buttonsheet
 	start as integer
 	pause as integer
 	quit as integer
+	options as integer
+	back as integer
+	fpsToggle as integer
+endtype
+
+type options
+	FPS as integer
+	SFX as integer
+	BGM as integer
 endtype
 
 global gSpeed#
@@ -56,9 +65,11 @@ global gGameMode
 global gNextSpawn#
 global gHighScore as integer
 readScores()
+initializeSettings()
 					
 global sprites as spritesheet
 global buttons as buttonsheet
+global settings as options
 loadSprites()					
 													//temporary debug stuff
 global hazardChance#
@@ -66,7 +77,7 @@ global hazardChance#
 //hazardNumber = CreateText("")
 
 //starting functions
-SetSyncRate(60, 0)
+SetSyncRate(settings.FPS, 0)
 SetRandomSeed(GetMilliseconds()) //seed the rng
 //player = createPlayer()
 global p1 as player
@@ -80,9 +91,15 @@ DeleteSprite(splash) //end loading
 
 
 do //main game loop
-    if gGameMode = 0 then gameMenu()
-    if gGameMode = 1 then mainGame()
-    if gGameMode = 2 then gamePaused()
+    if gGameMode = 0 
+		gameMenu()
+    elseif gGameMode = 1 
+		mainGame()
+    elseif gGameMode = 2 
+		gamePaused()
+    elseif gGameMode = 3 
+		optionsMenu()
+	endif
     debugInfo()
 	Sync()
 loop
@@ -134,7 +151,7 @@ function mainGame()
 endfunction	
 	
 function startGame()
-	deleteSprite(buttons.start)
+	hideMenu()
 	createPlayer()
 	createHazards()
 	gActiveHazards = 6
@@ -145,8 +162,9 @@ function startGame()
 endfunction
 
 function gameMenu()
-	if GetPointerState() = 1
+	if GetPointerReleased() = 1
 		if GetSpriteHit(GetPointerX(), GetPointerY()) = buttons.start then startGame()
+		if GetSpriteHit(GetPointerX(), GetPointerY()) = buttons.options then openOptions()
 	endif
 endfunction
 
@@ -154,7 +172,15 @@ function showMenu()
 	buttons.start = CreateSprite(0)
 	SetSpritePosition(buttons.start, 50, 20)
 	SetSpriteSize(buttons.start, 20, 10)
+	buttons.options = CreateSprite(0)
+	SetSpritePosition(buttons.options, 50, 60)
+	setspritesize(buttons.options, 20, 10)
 	gGameMode = 0
+endfunction
+
+function hideMenu()
+	DeleteSprite(buttons.start)
+	DeleteSprite(buttons.options)
 endfunction
 
 function loadSprites()
@@ -190,7 +216,7 @@ function pause()
 endfunction
 
 function gamePaused()
-	if GetPointerState() = 1
+	if GetPointerReleased() = 1
 		if GetSpriteHit(GetPointerX(), GetPointerY()) = buttons.quit
 			gameOver()
 		elseif GetSpriteHit(GetPointerX(), GetPointerY()) = buttons.pause
@@ -199,6 +225,48 @@ function gamePaused()
 		endif
 		DeleteSprite(buttons.pause)
 		DeleteSprite(buttons.quit)
+	endif
+endfunction
+
+function initializeSettings()
+		settings.BGM = 100
+		settings.SFX = 100
+		settings.FPS = 60
+endfunction
+
+function openOptions()
+	gGameMode = 3
+	hideMenu()
+	buttons.fpsToggle = CreateSprite(0)
+	SetSpriteSize(buttons.fpsToggle, -1, 10)
+	SetSpritePosition(buttons.fpsToggle, 50, 20)
+	if settings.FPS = 30 then setspritecolor(buttons.fpsToggle, 127, 127, 127, 255)
+	buttons.back = CreateSprite(0)
+	SetSpriteSize(buttons.back, -1, 10)
+	SetSpritePosition(buttons.back, 50, 80)
+endfunction
+
+function closeOptions()
+	DeleteSprite(buttons.fpsToggle)
+	DeleteSprite(buttons.back)
+	showMenu()
+	//save changes
+endfunction
+
+function optionsMenu()
+	if GetPointerReleased() = 1
+		if GetSpriteHit(GetPointerX(), GetPointerY()) = buttons.back
+			closeOptions()
+		elseif GetSpriteHit(GetPointerX(), GetPointerY()) = buttons.fpsToggle
+			if settings.FPS = 30
+				settings.FPS = 60
+				SetSpriteColor(buttons.fpsToggle, 255, 255, 255, 255)
+			else 
+				settings.FPS = 30
+				SetSpriteColor(buttons.fpsToggle, 127, 127, 127, 255)
+			endif
+			SetSyncRate(settings.FPS, 0)
+		endif
 	endif
 endfunction
 
