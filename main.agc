@@ -1,6 +1,7 @@
 #include "player.agc"
 #include "hazard.agc"
 #include "file.agc"
+#include "background.agc"
 // Project: Strawbirdie+ 
 // Created: 2015-08-11
 
@@ -30,6 +31,16 @@ type player
 	score as integer
 	velocity#
 	invincibleTime#
+endtype
+
+type background
+	foreground1 as integer
+	foreground2 as integer
+	background1 as integer
+	background2 as integer
+	red#
+	green#
+	blue#
 endtype
 
 type spritesheet
@@ -70,7 +81,9 @@ initializeSettings()
 global sprites as spritesheet
 global buttons as buttonsheet
 global settings as options
+global bg as background
 loadSprites()					
+makeBackground()													
 													//temporary debug stuff
 global hazardChance#
 //global hazardNumber
@@ -91,13 +104,16 @@ DeleteSprite(splash) //end loading
 
 
 do //main game loop
-    if gGameMode = 0 
+    if gGameMode = 0 //main menu
 		gameMenu()
-    elseif gGameMode = 1 
+		updateBackground() 
+    elseif gGameMode = 1 //main game mode
 		mainGame()
-    elseif gGameMode = 2 
+		updateBackground()
+    elseif gGameMode = 2 //options menu
 		gamePaused()
-    elseif gGameMode = 3 
+		updateBackground()
+    elseif gGameMode = 3 //paused
 		optionsMenu()
 	endif
     debugInfo()
