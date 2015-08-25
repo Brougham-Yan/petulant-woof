@@ -54,7 +54,8 @@ function resetHazard( i as integer)
 			endif
 		endif
 	SetSpriteDepth(hazards[i].sprite, 50)
-	setspritecolor(hazards[i].sprite, 255, 255, 255, 255)
+	SetSpriteColor(hazards[i].sprite, 255, 255, 255, 255)
+	SetSpriteShape(hazards[i].sprite, 2)
 	
 	for j = 0 to 5
 		checkCollision(i, j)
@@ -128,6 +129,7 @@ endfunction
 function checkCollision(i as integer, j as integer)
 	if i = j then exitfunction
 	if hazards[j].hazardType = -2 then exitfunction
+	if hazards[j].hazardType = -1 then exitfunction
 	if GetSpriteCollision(hazards[i].sprite, hazards[j].sprite) = 1 
 		resetHazard(i)
 		exitfunction
@@ -137,7 +139,7 @@ function checkCollision(i as integer, j as integer)
 		if hazards[j].hazardType = 1 //and the one you're checking against is too
 			if hazards[i].speed# < 0 //if it's coming from the left
 				if hazards[j].speed# > 0 //and the other one is coming from the right
-					SetSpriteSize(hazards[i].sprite, 200, 15)
+					SetSpriteSize(hazards[i].sprite, 400, 15)
 					if GetSpriteCollision(hazards[i].sprite, hazards[j].sprite) = 1
 						resetHazard(i)
 						exitfunction
@@ -146,8 +148,8 @@ function checkCollision(i as integer, j as integer)
 				endif
 			else //it's coming from the right
 				if hazards[j].speed# < hazards[i].speed# //and the other one is moving slower than this one
-					SetSpriteSize(hazards[j].sprite, 200, 15)
-					if GetSpriteCollision(hazards[i].sprite, hazards[j].sprite)
+					SetSpriteSize(hazards[j].sprite, 400, 15)
+					if GetSpriteCollision(hazards[i].sprite, hazards[j].sprite) = 1
 						resetHazard(i)
 						SetSpriteSize(hazards[j].sprite, -1, 15)
 						exitfunction
