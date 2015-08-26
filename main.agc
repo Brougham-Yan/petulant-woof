@@ -67,7 +67,7 @@ type options
 endtype
 
 global gSpeed#
-gSpeed# = 20
+gSpeed# = 25
 global lastTick# = 0
 global timeSinceLastTick# = 0
 global gGameTime# = 0

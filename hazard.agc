@@ -7,18 +7,17 @@ function createHazards()
 endfunction
 
 function resetHazard( i as integer)
-	hazardChance# = pow(0.95, ( gGameTime#/ 12 )) * 90
+	hazardChance# = pow(0.95, ( gGameTime#/ 10 )) * 90
 	if hazardChance# < 40 then hazardChance# = 40
-	//hazardChance# = 80 *  * 0.9
 	DeleteSprite(hazards[i].sprite)
 		RNG = random(0, 99)
-		if RNG < 5
+		if RNG < 3
 			hazards[i].hazardType = 3 //health
 			hazards[i].sprite = createsprite(sprites.popsicle)
 			hazards[i].speed# = gSpeed#
 			SetSpriteSize(hazards[i].sprite, -1, 8)
 			SetSpritePosition(hazards[i].sprite, 110, random(5, 87))
-		elseif RNG < 15
+		elseif RNG < 14
 			hazards[i].hazardType = 2 // cloud
 			hazards[i].sprite = CreateSprite(sprites.cloud)
 			hazards[i].speed# = gSpeed#
