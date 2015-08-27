@@ -7,13 +7,10 @@
 
 // set window properties
 SetWindowTitle( "Strawbirdie+" )
-//SetWindowSize( 1024, 768, 0 )
 
 // set display properties
-//SetVirtualResolution( 1920, 1080 )
 SetOrientationAllowed( 0, 0, 1, 1 ) //force landscape
 SetDisplayAspect(-1)
-SetClearColor( 255, 128, 128)
 
 splash = CreateSprite(0) //splash screen
 SetSpriteSize(splash, -1, 100)
@@ -67,7 +64,9 @@ type options
 endtype
 
 global gSpeed#
-gSpeed# = 25
+global gTargetSpeed#
+gSpeed# = 20
+gTargetSpeed# = 20
 global lastTick# = 0
 global timeSinceLastTick# = 0
 global gGameTime# = 0
@@ -156,13 +155,16 @@ function mainGame()
 		endif
 	endif
 	
-	//if(getSpriteY(p1.sprite) < 0) then SetSpritePosition(p1.sprite, 10, 0)
-	//if(GetSpriteY(p1.sprite) > 85) then SetSpritePosition(p1.sprite, 10, 85)
-	
 	if gNextLevel# < 0
 		if gActiveHazards < 10 then inc gActiveHazards
 		gNextLevel# = 45
+		inc gTargetSpeed#, 5
 	endif
+	
+	if gSpeed# < gTargetSpeed#
+		inc gSpeed#, timeSinceLastTick#
+	endif
+	
 	updateHazards()
 endfunction	
 	
@@ -175,6 +177,8 @@ function startGame()
 	gNextSpawn# = 1
 	gGameTime# = 0
 	gGameMode = 1
+	gSpeed# = 20
+	gTargetSpeed# = 20
 endfunction
 
 function gameMenu()
@@ -309,4 +313,6 @@ function debugInfo()
 	print(str(gNextLevel#))
 	printC("activehazards:")
 	print(str(gActiveHazards))
+	printc("speed:")
+	print(str(gSpeed#))
 endfunction
