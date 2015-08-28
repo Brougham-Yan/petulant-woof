@@ -4,6 +4,7 @@ function createPlayer ()
 	SetSpritePosition(p1.sprite, 25, 50)
 	p1.velocity# = 0.0
 	p1.invincibleTime# = 0.0
+	p1.antigravTime# = 0.0
 	p1.score = 0
 	p1.health = 3
 endfunction

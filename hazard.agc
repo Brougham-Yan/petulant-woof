@@ -17,15 +17,22 @@ function resetHazard( i as integer)
 			hazards[i].speed# = gSpeed#
 			SetSpriteSize(hazards[i].sprite, -1, 8)
 			SetSpritePosition(hazards[i].sprite, 110, random(5, 87))
-		elseif RNG < 14
+		elseif RNG < 10
 			hazards[i].hazardType = 2 // cloud
 			hazards[i].sprite = CreateSprite(sprites.cloud)
 			hazards[i].speed# = gSpeed#
 			SetSpriteSize(hazards[i].sprite, -1, 18)
 			SetSpritePosition(hazards[i].sprite, 110, random(5, 77))
-		elseif RNG < 25
+		elseif RNG < 17
 			hazards[i].hazardType = 4 //solar flash
 			hazards[i].sprite = CreateSprite(0)
+			hazards[i].speed# = gSpeed#
+			SetSpriteSize(hazards[i].sprite, -1, 18)
+			SetSpritePosition(hazards[i].sprite, 110, random(5, 77))
+		elseif RNG < 25
+			hazards[i].hazardType = 5 //antigrav
+			hazards[i].sprite = CreateSprite(0)
+			SetSpriteColor(hazards[i].sprite, 5, 255, 200, 255)
 			hazards[i].speed# = gSpeed#
 			SetSpriteSize(hazards[i].sprite, -1, 18)
 			SetSpritePosition(hazards[i].sprite, 110, random(5, 77))
@@ -122,6 +129,9 @@ function collisionUpdate(i as integer)
 		exitfunction
 	elseif hazards[i].hazardType = -1
 		exitfunction
+	elseif hazards[i].hazardType = 5 //antigrav
+		antigrav(i)
+		exitfunction
 	endif
 endfunction
 
@@ -193,4 +203,11 @@ function flashBomb(i as integer)
 	SetSpritePosition(hazards[i].sprite, 0, 0)
 	SetSpriteDepth(hazards[i].sprite, 8)
 	hazards[i].speed# = 0.0
+endfunction
+
+function antigrav(i as integer)
+	hazards[i].hazardType = -1
+	DeleteSprite(hazards[i].sprite)
+	inc p1.antigravTime#, 5.0
+	SetSpriteFlip(p1.sprite, 0, 1)
 endfunction
