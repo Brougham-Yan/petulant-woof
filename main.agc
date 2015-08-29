@@ -137,11 +137,19 @@ function mainGame()
 	
 	if GetSpriteY(p1.sprite) < 0 //make sure it doesn't go out of bounds
 		p1.velocity# = (0 - p1.velocity# * 0.9)
-		if p1.velocity# < 35 then p1.velocity# = 35
+		if p1.antigravTime# > 0
+			if p1.velocity# > -35 then p1.velocity# = -35
+		else
+			if p1.velocity# < 35 then p1.velocity# = 35
+		endif
 	endif
 	if GetSpriteY(p1.sprite) > 85 
 		p1.velocity# = (0 - p1.velocity# * 0.9)
-		if p1.velocity# > -35 then p1.velocity# = -35
+		if p1.antigravTime# > 0
+			if p1.velocity# < 35 then p1.velocity# = 35
+		else
+			if p1.velocity# > -35 then p1.velocity# = -35
+		endif
 	endif
 	
 	if p1.antigravTime# > 0

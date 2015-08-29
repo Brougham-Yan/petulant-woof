@@ -32,7 +32,6 @@ function resetHazard( i as integer)
 		elseif RNG < 25
 			hazards[i].hazardType = 5 //antigrav
 			hazards[i].sprite = CreateSprite(0)
-			SetSpriteColor(hazards[i].sprite, 5, 255, 200, 255)
 			hazards[i].speed# = gSpeed#
 			SetSpriteSize(hazards[i].sprite, -1, 18)
 			SetSpritePosition(hazards[i].sprite, 110, random(5, 77))
