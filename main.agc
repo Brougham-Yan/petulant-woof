@@ -179,14 +179,6 @@ function hideMenu()
 	DeleteSprite(buttons.options)
 endfunction
 
-function loadSprites()
-	sprites.player = LoadImage("frame-1.png")
-	sprites.monster = LoadImage("monster.png")
-	sprites.strawberry = LoadImage("strawberry.png")
-	sprites.cloud = LoadImage("cloud.png")
-	sprites.popsicle = LoadImage("cherry.png")
-endfunction
-
 function gameOver()
 	for i = 0 to 9
 		DeleteSprite(hazards[i].sprite)
