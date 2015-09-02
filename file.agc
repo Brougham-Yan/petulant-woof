@@ -22,7 +22,7 @@ endfunction
 
 function loadSprites()
 	sprites.player = LoadImage("spaceship.png")
-	sprites.monster = LoadImage("monster.png")
+	sprites.monster = LoadImage("ufo.png")
 	sprites.strawberry = LoadImage("strawberry.png")
 	sprites.cloud = LoadImage("cloud.png")
 	sprites.popsicle = LoadImage("cherry.png")
