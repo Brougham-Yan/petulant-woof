@@ -56,6 +56,10 @@ type buttonsheet
 	options as integer
 	back as integer
 	fpsToggle as integer
+	sfxDown as integer
+	sfxUp as integer
+	bgmDown as integer
+	bgmUp as integer
 endtype
 
 type options
@@ -232,11 +236,29 @@ function openOptions()
 	buttons.back = CreateSprite(0)
 	SetSpriteSize(buttons.back, -1, 10)
 	SetSpritePosition(buttons.back, 50, 80)
+	
+	buttons.bgmDown = CreateSprite(0)
+	SetSpriteSize(buttons.bgmDown, -1 , 10)
+	SetSpritePosition(buttons.bgmDown, 50, 35)
+	buttons.bgmUp = CreateSprite(0)
+	SetSpriteSize(buttons.bgmUp, -1, 10)
+	SetSpritePosition(buttons.bgmUp, 65, 35)
+	
+	buttons.sfxDown = CreateSprite(0)
+	SetSpriteSize(buttons.sfxDown, -1 , 10)
+	SetSpritePosition(buttons.sfxDown, 50, 50)
+	buttons.sfxUp = CreateSprite(0)
+	SetSpriteSize(buttons.sfxUp, -1, 10)
+	SetSpritePosition(buttons.sfxUp, 65, 50)
 endfunction
 
 function closeOptions()
 	DeleteSprite(buttons.fpsToggle)
 	DeleteSprite(buttons.back)
+	DeleteSprite(buttons.sfxDown)
+	DeleteSprite(buttons.sfxUp)
+	DeleteSprite(buttons.bgmDown)
+	DeleteSprite(buttons.bgmUp)
 	showMenu()
 	//save changes
 endfunction
@@ -254,6 +276,14 @@ function optionsMenu()
 				SetSpriteColor(buttons.fpsToggle, 127, 127, 127, 255)
 			endif
 			SetSyncRate(settings.FPS, 0)
+		elseif GetSpriteHit(GetPointerX(), GetPointerY()) = buttons.bgmDown
+			if settings.BGM > 0 then dec settings.BGM, 10
+		elseif GetSpriteHit(GetPointerX(), GetPointerY()) = buttons.bgmUp
+			if settings.BGM < 100 then inc settings.BGM, 10 
+		elseif GetSpriteHit(GetPointerX(), GetPointerY()) = buttons.sfxDown
+			if settings.SFX > 0 then dec settings.SFX, 10
+		elseif GetSpriteHit(GetPointerX(), GetPointerY()) = buttons.sfxUp
+			if settings.SFX < 100 then inc settings.SFX, 10
 		endif
 	endif
 endfunction
@@ -285,4 +315,8 @@ function debugInfo()
 	print(str(gSpeed#))
 	printc("antigrav:")
 	print(str(p1.antigravTime#))
+	printc("sfx: ")
+	print(str(settings.SFX))
+	printc("bgm: ")
+	print(str(settings.BGM))
 endfunction
