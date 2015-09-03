@@ -16,57 +16,7 @@ splash = CreateSprite(0) //splash screen
 SetSpriteSize(splash, -1, 100)
 SetSpriteDepth(splash, 1)
 
-type hazard
-	sprite as integer
-	hazardType as integer
-	speed#
-endtype
-
-type player
-	sprite as integer
-	health as integer
-	score as integer
-	velocity#
-	invincibleTime#
-	antigravTime#
-endtype
-
-type background
-	foreground1 as integer
-	foreground2 as integer
-	background1 as integer
-	background2 as integer
-	red#
-	green#
-	blue#
-endtype
-
-type spritesheet
-	player as integer
-	strawberry as integer
-	monster as integer
-	cloud as integer
-	popsicle as integer
-endtype
-
-type buttonsheet
-	start as integer
-	pause as integer
-	quit as integer
-	options as integer
-	back as integer
-	fpsToggle as integer
-	sfxDown as integer
-	sfxUp as integer
-	bgmDown as integer
-	bgmUp as integer
-endtype
-
-type options
-	FPS as integer
-	SFX as integer
-	BGM as integer
-endtype
+#insert "types.agc"
 
 global gSpeed#
 global gTargetSpeed#
