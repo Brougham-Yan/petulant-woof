@@ -99,6 +99,14 @@ function updateHazards()
 		endif
 	next i
 	if gNextSpawn# < 0 then spawnHazard()
+	if gNextEffect# < 5 
+		if hazards[0].hazardType = -1 then warnHazard()
+		if mod(gGameTime# * 10, 3) = 0
+			SetSpriteColorAlpha(hazards[0].sprite, 0)
+		else
+			SetSpriteColorAlpha(hazards[0].sprite, 255)
+		endif
+	endif
 	if gNextEffect# < 0 then startEffect()
 endfunction
 
@@ -123,7 +131,7 @@ function collisionUpdate(i as integer)
 		flashBomb(i)
 		exitfunction
 	elseif hazards[i].hazardType = 2 
-		cloudCover(i)
+		cloudCover()
 		exitfunction
 	elseif hazards[i].hazardType = -1
 		exitfunction
@@ -189,7 +197,7 @@ endfunction
 function startEffect() //might change later so effects are based on level
 	RNG = random(0,2)
 	if RNG = 0
-		cloudCover(0)
+		cloudCover()
 	elseif RNG = 1
 		flashBomb(0)
 	elseif RNG = 2
@@ -198,18 +206,29 @@ function startEffect() //might change later so effects are based on level
 	gNextEffect# = random(15, 45)
 endfunction
 
-function cloudCover(i as integer)
-	hazards[i].hazardType = -2
-	hazards[i].sprite = CreateSprite(sprites.cloud)
-	setspritesize(hazards[i].sprite, -1, 85)
-	setSpriteX(hazards[i].sprite, 110)
-	SetSpriteY(hazards[i].sprite, 7.5)
-	SetSpriteDepth(hazards[i].sprite, 9)
-	SetSpriteColorAlpha(hazards[i].sprite, 0)
-	hazards[i].speed# = gSpeed#
+function warnHazard()
+	hazards[0].hazardType = 0
+	hazards[0].sprite = CreateSprite(0)
+	SetSpritePosition(hazards[0].sprite, 85, 5)
+	SetSpriteSize(hazards[0].sprite, -1, 10)
+	SetSpriteDepth(hazards[0].sprite, 8)
+	hazards[0].speed# = 0
+endfunction
+
+function cloudCover()
+	DeleteSprite(hazards[0].sprite)
+	hazards[0].hazardType = -2
+	hazards[0].sprite = CreateSprite(sprites.cloud)
+	setspritesize(hazards[0].sprite, -1, 85)
+	setSpriteX(hazards[0].sprite, 110)
+	SetSpriteY(hazards[0].sprite, 7.5)
+	SetSpriteDepth(hazards[0].sprite, 9)
+	SetSpriteColorAlpha(hazards[0].sprite, 0)
+	hazards[0].speed# = gSpeed#
 endfunction
 
 function flashBomb(i as integer)
+	DeleteSprite(hazards[i].sprite)
 	hazards[i].hazardType = -3
 	hazards[i].sprite = CreateSprite(0)
 	SetSpriteColorAlpha(hazards[i].sprite, 0)
@@ -220,6 +239,7 @@ function flashBomb(i as integer)
 endfunction
 
 function antigrav(i as integer)
+	DeleteSprite(hazards[i].sprite)
 	hazards[i].hazardType = -1
 	inc p1.antigravTime#, 5.0
 	SetSpriteFlip(p1.sprite, 0, 1)

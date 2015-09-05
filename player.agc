@@ -47,11 +47,12 @@ function updatePlayer()
 		SetSpritePosition(p1.sprite, 25, GetSpriteY(p1.sprite) + (p1.velocity# * timeSinceLastTick#))
 	endif
 	if p1.invincibleTime# > 0
-		if mod(timer()*10, 3) = 0
+		if mod(gGameTime# * 10, 3) = 0
 			SetSpriteColorAlpha(p1.sprite, 0)
 		else
 			SetSpriteColorAlpha(p1.sprite, 255)
-			dec p1.invincibleTime#, timeSinceLastTick#
 		endif
+		dec p1.invincibleTime#, timeSinceLastTick#
+		if p1.invincibleTime# < 0 then SetSpriteColorAlpha(p1.sprite, 255)
 	endif
 endfunction
