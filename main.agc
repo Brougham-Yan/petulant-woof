@@ -28,6 +28,7 @@ global gGameTime# = 0
 global gNextLevel# = 45
 global gGameMode
 global gNextSpawn#
+global gNextEffect#
 global gHighScore as integer
 readScores()
 initializeSettings()
@@ -82,6 +83,9 @@ function mainGame()
 	timeSinceLastTick# = lastTick# - previousTick#
 	inc gGameTime#, timeSinceLastTick#
 	dec gNextLevel#, timeSinceLastTick#
+	dec gNextSpawn#, timeSinceLastTick#
+	dec gNextEffect#, timeSinceLastTick#
+
 	inc p1.score, (timeSinceLastTick# * 100)
     updatePlayer()
 	
@@ -105,6 +109,7 @@ function startGame()
 	gActiveHazards = 6
 	lastTick# = timer()
 	gNextSpawn# = 1
+	gNextEffect# = 20
 	gGameTime# = 0
 	gGameMode = 1
 	gSpeed# = 20
@@ -247,6 +252,8 @@ function debugInfo()
 	print(str(hazardChance#))
 	printC("next spawn:")
 	print(str(gNextSpawn#))
+	printC("next effect:")
+	print(str(gNextEffect#))
 	printC("game time:")
 	print(str(gGameTime#))
 	printC("score:")
