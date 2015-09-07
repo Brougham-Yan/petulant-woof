@@ -8,9 +8,9 @@ FILE_4=background.agc;-1
 FILE_5=types.agc;-1
 
 [files]
-FILE_NAME_0=0;main.agc;533;1
+FILE_NAME_0=0;main.agc;1573;1
 FILE_NAME_1=0;player.agc;1245;2
-FILE_NAME_2=1;hazard.agc;5300;0
+FILE_NAME_2=1;hazard.agc;3289;0
 FILE_NAME_3=0;file.agc;690;3
 FILE_NAME_4=0;background.agc;2330;4
 FILE_NAME_5=0;types.agc;745;5

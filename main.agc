@@ -41,17 +41,13 @@ loadSprites()
 makeBackground()													
 													//temporary debug stuff
 global hazardChance#
-//global hazardNumber
-//hazardNumber = CreateText("")
 
 //starting functions
 SetSyncRate(settings.FPS, 0)
 SetRandomSeed(GetMilliseconds()) //seed the rng
-//player = createPlayer()
 global p1 as player
 global hazards as hazard[10]
 global gActiveHazards as integer
-//image = LoadImage("frame-1.png")
 global start as integer
 showMenu()
 
@@ -86,7 +82,7 @@ function mainGame()
 	dec gNextSpawn#, timeSinceLastTick#
 	dec gNextEffect#, timeSinceLastTick#
 
-	inc p1.score, (timeSinceLastTick# * 100)
+	inc p1.score, (timeSinceLastTick# * gSpeed# * 10)
     updatePlayer()
 	
 	if gNextLevel# < 0

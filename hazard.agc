@@ -92,7 +92,7 @@ endfunction
 
 function collisionUpdate(i as integer)
 	if hazards[i].hazardType = 0 //points hit
-		inc p1.score, 1000
+		inc p1.score, 500
 		setHazardInactive(i)
 		exitfunction
 	elseif hazards[i].hazardType = 1  //enemy hit
