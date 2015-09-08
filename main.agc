@@ -66,6 +66,8 @@ do //main game loop
 		updateBackground()
     elseif gGameMode = 3 //paused
 		optionsMenu()
+	elseif gGameMode = 4 //game over
+		gameOverMenu()
 	endif
     debugInfo()
 	Sync()
@@ -139,11 +141,15 @@ function gameOver()
 		DeleteSprite(hazards[i].sprite)
 	next i
 	DeleteSprite(p1.sprite)
-	showMenu()
 	if p1.score > gHighScore
 		gHighScore = p1.score
 		writeScores()
 	endif
+	gGameMode = 4
+	buttons.back = CreateSprite(0)
+	SetSpritePosition(buttons.back, 45, 80)
+	SetSpriteSize(buttons.back, 10, -1)
+	
 endfunction
 
 function pause()
@@ -214,6 +220,11 @@ function closeOptions()
 	//save changes
 endfunction
 
+function closeGameOver()
+	DeleteSprite(buttons.back)
+	showMenu()
+endfunction
+
 function optionsMenu()
 	if GetPointerReleased() = 1
 		if GetSpriteHit(GetPointerX(), GetPointerY()) = buttons.back
@@ -235,6 +246,14 @@ function optionsMenu()
 			if settings.SFX > 0 then dec settings.SFX, 10
 		elseif GetSpriteHit(GetPointerX(), GetPointerY()) = buttons.sfxUp
 			if settings.SFX < 100 then inc settings.SFX, 10
+		endif
+	endif
+endfunction
+
+function gameOverMenu()
+	if GetPointerReleased() = 1
+		if GetSpriteHit(GetPointerX(), GetPointerY()) = buttons.back
+			closeGameOver()
 		endif
 	endif
 endfunction
