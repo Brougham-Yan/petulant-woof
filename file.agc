@@ -26,4 +26,5 @@ function loadSprites()
 	sprites.strawberry = LoadImage("strawberry.png")
 	sprites.cloud = LoadImage("cloud.png")
 	sprites.popsicle = LoadImage("cherry.png")
+	sprites.background = LoadImage("background.png")
 endfunction
