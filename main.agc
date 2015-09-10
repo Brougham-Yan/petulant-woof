@@ -37,6 +37,7 @@ global sprites as spritesheet
 global buttons as buttonsheet
 global settings as options
 global bg as background
+global ui as interface
 loadSprites()					
 makeBackground()													
 													//temporary debug stuff
@@ -149,6 +150,11 @@ function gameOver()
 	buttons.back = CreateSprite(0)
 	SetSpritePosition(buttons.back, 45, 80)
 	SetSpriteSize(buttons.back, 10, -1)
+	ui.score = CreateText(str(p1.score))
+	SetTextPosition(ui.score, 50, 20)
+	
+	ui.scoreText = CreateText("Score:")
+	SetTextPosition(ui.scoreText, 40, 20)
 	
 endfunction
 
@@ -222,6 +228,8 @@ endfunction
 
 function closeGameOver()
 	DeleteSprite(buttons.back)
+	DeleteText(ui.score)
+	DeleteText(ui.scoreText)
 	showMenu()
 endfunction
 
