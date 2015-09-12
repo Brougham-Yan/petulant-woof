@@ -22,11 +22,11 @@ function resetHazard( i as integer)
 			SetSpriteSize(hazards[i].sprite, -1, 10)
 			SetSpritePosition(hazards[i].sprite, 110, random(5, 85))
 		else
-			hazards[i].hazardType = 1 //bird
+			hazards[i].hazardType = 1 //UFO
 			hazards[i].sprite = CreateSprite(sprites.monster)
 			SetSpriteSize(hazards[i].sprite, -1, 15)
 			if random(0,9) < 2
-				SetSpritePosition(hazards[i].sprite, -10, random(5, 80))
+				SetSpritePosition(hazards[i].sprite, -30, random(5, 80))
 				hazards[i].speed# = -gSpeed# * 0.4
 			else
 				SetSpritePosition(hazards[i].sprite, 110, random(5, 80))
@@ -72,8 +72,8 @@ function updateHazards()
 			if GetSpriteCollision(hazards[i].sprite, p1.sprite) = 1
 				collisionUpdate(i)
 			endif		
-			if GetSpriteX(hazards[i].sprite) < (-15 - GetSpriteWidth(hazards[i].sprite)) then setHazardInactive(i)
-			if GetSpriteX(hazards[i].sprite) > 115 then setHazardInactive(i)
+			if GetSpriteX(hazards[i].sprite) < (-30 - GetSpriteWidth(hazards[i].sprite)) then setHazardInactive(i)
+			if GetSpriteX(hazards[i].sprite) > 130 then setHazardInactive(i)
 			if hazards[i].hazardType = -3 then SetSpritePosition(hazards[i].sprite, 0, 0)
 			if hazards[i].hazardType = -4 then SetSpritePosition(hazards[i].sprite, 0, 0)
 		endif
