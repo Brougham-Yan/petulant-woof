@@ -156,6 +156,11 @@ function gameOver()
 	ui.scoreText = CreateText("Score:")
 	SetTextPosition(ui.scoreText, 40, 20)
 	
+	ui.time = CreateText(str(gGameTime#))
+	SetTextPosition(ui.time, 50, 30)
+	
+	ui.timeText = CreateText("Time:")
+	SetTextPosition(ui.timeText, 40, 30)
 endfunction
 
 function pause()
@@ -230,6 +235,8 @@ function closeGameOver()
 	DeleteSprite(buttons.back)
 	DeleteText(ui.score)
 	DeleteText(ui.scoreText)
+	DeleteText(ui.time)
+	DeleteText(ui.timeText)
 	showMenu()
 endfunction
 
