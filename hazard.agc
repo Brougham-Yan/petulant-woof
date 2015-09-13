@@ -179,9 +179,9 @@ endfunction
 
 function warnHazard()
 	hazards[0].hazardType = 0
-	hazards[0].sprite = CreateSprite(0)
-	SetSpritePosition(hazards[0].sprite, 85, 5)
-	SetSpriteSize(hazards[0].sprite, -1, 10)
+	hazards[0].sprite = CreateSprite(sprites.warning)
+	SetSpritePosition(hazards[0].sprite, 90, 5)
+	SetSpriteSize(hazards[0].sprite, -1, 15)
 	SetSpriteDepth(hazards[0].sprite, 8)
 	hazards[0].speed# = 0
 endfunction
