@@ -98,13 +98,13 @@ function collisionUpdate(i as integer)
 	elseif hazards[i].hazardType = 1  //enemy hit
 		if p1.invincibleTime# > 0
 		else
-			dec p1.health
+			dec p1.health, 3
 			p1.invincibleTime# = 1.5
 			if p1.health < 1 then gameOver()
 		endif
 		exitfunction
 	elseif hazards[i].hazardType = 3 //health hit
-		if p1.health < 3 then inc p1.health		
+		if p1.health < 10 then inc p1.health		
 		setHazardInactive(i)
 		exitfunction
 	elseif hazards[i].hazardType = -1 //inactive
@@ -114,8 +114,7 @@ endfunction
 
 function checkCollision(i as integer, j as integer)
 	if i = j then exitfunction
-//	if hazards[j].hazardType = -2 then exitfunction
-//	if hazards[j].hazardType = -1 then exitfunction 
+
 	if GetSpriteCollision(hazards[i].sprite, hazards[j].sprite) = 1 
 		resetHazard(i)
 		exitfunction

@@ -6,7 +6,7 @@ function createPlayer ()
 	p1.invincibleTime# = 0.0
 	p1.antigravTime# = 0.0
 	p1.score = 0
-	p1.health = 3
+	p1.health = 10
 endfunction
 
 function updatePlayer()
@@ -18,6 +18,14 @@ function updatePlayer()
 	
 	if GetSpriteY(p1.sprite) < 0 //make sure it doesn't go out of bounds
 		p1.velocity# = (0 - p1.velocity# * 0.9)
+		
+		if p1.invincibleTime# > 0
+		else
+			dec p1.health
+			p1.invincibleTime# = 0.5
+			if p1.health < 1 then gameOver()
+		endif
+		
 		if p1.antigravTime# > 0
 			if p1.velocity# > -35 then p1.velocity# = -35
 		else
@@ -25,6 +33,14 @@ function updatePlayer()
 		endif
 	endif
 	if GetSpriteY(p1.sprite) > 85 
+		
+		if p1.invincibleTime# > 0
+		else
+			dec p1.health
+			p1.invincibleTime# = 0.5
+			if p1.health < 1 then gameOver()
+		endif
+		
 		p1.velocity# = (0 - p1.velocity# * 0.9)
 		if p1.antigravTime# > 0
 			if p1.velocity# < 35 then p1.velocity# = 35
