@@ -9,7 +9,7 @@ function resetHazard( i as integer)
 	if hazardChance# < 40 then hazardChance# = 40
 	DeleteSprite(hazards[i].sprite)
 		RNG = random(0, 99)
-		if RNG < 3
+		if RNG < 5
 			hazards[i].hazardType = 3 //health
 			hazards[i].sprite = createsprite(sprites.popsicle)
 			hazards[i].speed# = gSpeed#
