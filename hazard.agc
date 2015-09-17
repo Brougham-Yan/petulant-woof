@@ -104,7 +104,7 @@ function collisionUpdate(i as integer)
 		endif
 		exitfunction
 	elseif hazards[i].hazardType = 3 //health hit
-		if p1.health < 10 then inc p1.health		
+		if p1.health < 10 then inc p1.health, 2		
 		setHazardInactive(i)
 		exitfunction
 	elseif hazards[i].hazardType = -1 //inactive
