@@ -1,11 +1,11 @@
 function makeBackground()
-	bg.foreground1 = CreateSprite(0)
-	bg.foreground2 = CreateSprite(0)
+	bg.foreground1 = CreateSprite(sprites.stars)
+	bg.foreground2 = CreateSprite(sprites.stars)
 	bg.background1 = CreateSprite(sprites.background)
 	bg.background2 = CreateSprite(sprites.background)
 	
-	SetSpriteColorAlpha(bg.foreground1, 0)
-	SetSpriteColorAlpha(bg.foreground2, 0)
+	//SetSpriteColorAlpha(bg.foreground1, 0)
+	//SetSpriteColorAlpha(bg.foreground2, 0)
 	
 	SetSpriteSize(bg.foreground1, 100, 100)
 	SetSpriteSize(bg.foreground2, 100, 100)
@@ -15,12 +15,12 @@ function makeBackground()
 	SetSpriteX(bg.foreground2, 100)
 	SetSpriteX(bg.background2, 100)	
 	
-	bg.red# = 55
-	bg.green# = 55
-	bg.blue# = 36
+	bg.red# = 220
+	bg.green# = 83
+	bg.blue# = 13
 	
-	SetSpriteColor(bg.background1, 55, 55, 36, 255)
-	SetSpriteColor(bg.background1, 55, 55, 36, 255)
+	SetSpriteColor(bg.background1, bg.red#, bg.green#, bg.blue#, 255)
+	SetSpriteColor(bg.background1, bg.red#, bg.green#, bg.blue#, 255)
 	
 	SetSpriteDepth(bg.background1, 101)
 	SetSpriteDepth(bg.background2, 101)

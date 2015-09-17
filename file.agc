@@ -28,4 +28,5 @@ function loadSprites()
 	sprites.popsicle = LoadImage("cherry.png")
 	sprites.background = LoadImage("background.png")
 	sprites.warning = LoadImage("warning.png")
+	sprites.stars = LoadImage("starfield.png")
 endfunction
