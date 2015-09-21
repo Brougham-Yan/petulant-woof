@@ -69,8 +69,14 @@ function updateHazards()
 				SetSpriteColorAlpha(hazards[i].sprite, hazards[i].speed#)
 			endif
 			SetSpritePosition(hazards[i].sprite, GetSpriteX(hazards[i].sprite) - (hazards[i].speed# * timeSinceLastTick#), GetSpriteY(hazards[i].sprite))
-			if GetSpriteCollision(hazards[i].sprite, p1.sprite) = 1
-				collisionUpdate(i)
+			
+			if GetSpriteX(hazards[i].sprite) > (GetSpriteWidth(p1.sprite) + GetSpriteX(p1.sprite))
+			elseif (GetSpriteX(hazards[i].sprite) + GetSpriteWidth(hazards[i].sprite)) < GetSpriteX(p1.sprite)
+			else
+				if GetSpriteCollision(hazards[i].sprite, p1.sprite) = 1
+					collisionUpdate(i)
+			endif
+			
 			endif		
 			if GetSpriteX(hazards[i].sprite) < (-30 - GetSpriteWidth(hazards[i].sprite)) then setHazardInactive(i)
 			if GetSpriteX(hazards[i].sprite) > 130 then setHazardInactive(i)

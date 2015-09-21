@@ -10,10 +10,10 @@ FILE_5=types.agc;-1
 [files]
 FILE_NAME_0=0;main.agc;3817;1
 FILE_NAME_1=0;player.agc;570;2
-FILE_NAME_2=1;hazard.agc;3831;0
+FILE_NAME_2=1;hazard.agc;2508;0
 FILE_NAME_3=0;file.agc;773;3
 FILE_NAME_4=0;background.agc;974;4
-FILE_NAME_5=0;types.agc;504;5
+FILE_NAME_5=0;types.agc;514;5
 
 [project]
 description=
