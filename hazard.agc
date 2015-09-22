@@ -40,7 +40,7 @@ function resetHazard( i as integer)
 		endif
 	SetSpriteDepth(hazards[i].sprite, 50)
 	SetSpriteColor(hazards[i].sprite, 255, 255, 255, 255)
-	SetSpriteShape(hazards[i].sprite, 2)
+	SetSpriteShape(hazards[i].sprite, 3)
 	
 	for j = 1 to gActiveHazards
 		checkCollision(i, j)
