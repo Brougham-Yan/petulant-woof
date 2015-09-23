@@ -29,51 +29,37 @@ function makeBackground()
 endfunction
 
 function updateBackground()
-	SetSpriteX(bg.foreground1, GetSpriteX(bg.foreground1) - (gSpeed# * timeSinceLastTick# * 0.1))
-	SetSpriteX(bg.foreground2, GetSpriteX(bg.foreground2) - (gSpeed# * timeSinceLastTick# * 0.1))
-	SetSpriteX(bg.background1, GetSpriteX(bg.background1) - (gSpeed# * timeSinceLastTick# * 0.01))
-	SetSpriteX(bg.background2, GetSpriteX(bg.background2) - (gSpeed# * timeSinceLastTick# * 0.01))
+	SetSpriteX(bg.foreground1, GetSpriteX(bg.foreground1) - (gSpeed# * timeSinceLastTick# * 0.05))
+	SetSpriteX(bg.foreground2, GetSpriteX(bg.foreground2) - (gSpeed# * timeSinceLastTick# * 0.05))
+	SetSpriteX(bg.background1, GetSpriteX(bg.background1) - (gSpeed# * timeSinceLastTick# * 0.005))
+	SetSpriteX(bg.background2, GetSpriteX(bg.background2) - (gSpeed# * timeSinceLastTick# * 0.005))
 	if GetSpriteX(bg.foreground1) < - 100 then SetSpriteX(bg.foreground1, GetSpriteX(bg.foreground1) + 100)
 	if GetSpriteX(bg.foreground1) < 0 then SetSpriteX(bg.foreground2, GetSpriteX(bg.foreground1) + 100)
 	if GetSpriteX(bg.background1) < - 100 then SetSpriteX(bg.background1, GetSpriteX(bg.background1) + 100)
 	if GetSpriteX(bg.background1) < 0 then SetSpriteX(bg.background2, GetSpriteX(bg.background1) + 100)
 	
-	select gActiveHazards
-		case 6:
-			updateColours(55, 55, 36)
-		endcase
-		case 7:
-			updateColours(216, 152, 82)
-		endcase
-		case 8:
-			updateColours(22, 206, 226)
-		endcase
-		case 9:
-			updateColours(124, 115, 242)
-		endcase
-		case 10:
-			updateColours(84, 201, 50)
-		endcase
-	endselect
-endfunction
-
-function updateColours(r#, g#, b#)
-	if bg.red# > r# 
-		dec bg.red#, timeSinceLastTick# * 7
+	if bg.red# > bg.targetRed# 
+		dec bg.red#, timeSinceLastTick# * 9
 	else
-		inc bg.red#, timeSinceLastTick# * 7
+		inc bg.red#, timeSinceLastTick# * 9
 	endif
-	if bg.green# > g# 
-		dec bg.green#, timeSinceLastTick# * 7
+	if bg.green# > bg.targetGreen# 
+		dec bg.green#, timeSinceLastTick# * 9
 	else
-		inc bg.green#, timeSinceLastTick# * 7
+		inc bg.green#, timeSinceLastTick# * 9
 	endif
-	if bg.blue# > b# 
-		dec bg.blue#, timeSinceLastTick# * 7
+	if bg.blue# > bg.targetBlue# 
+		dec bg.blue#, timeSinceLastTick# * 9
 	else
-		inc bg.blue#, timeSinceLastTick# * 7
+		inc bg.blue#, timeSinceLastTick# * 9
 	endif
 	
 	SetSpriteColor(bg.background1, bg.red#, bg.green#, bg.blue#, 255)
 	SetSpriteColor(bg.background2, bg.red#, bg.green#, bg.blue#, 255)
+endfunction
+
+function updateColours(r#, g#, b#)
+	bg.targetRed# = r#
+	bg.targetGreen# = g#
+	bg.targetBlue# = b#
 endfunction

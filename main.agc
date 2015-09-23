@@ -88,11 +88,7 @@ function mainGame()
 	inc p1.score, (timeSinceLastTick# * gSpeed# * 10)
     updatePlayer()
 	
-	if gNextLevel# < 0
-		if gActiveHazards < 10 then inc gActiveHazards
-		gNextLevel# = 45
-		inc gTargetSpeed#, 5
-	endif
+	if gNextLevel# < 0 then nextZone()
 	
 	if gSpeed# < gTargetSpeed#
 		inc gSpeed#, timeSinceLastTick#
@@ -100,6 +96,32 @@ function mainGame()
 	
 	updateHazards()
 endfunction	
+
+function nextZone()
+	if gActiveHazards < 10 then inc gActiveHazards
+		gNextLevel# = 30
+		inc gTargetSpeed#, 5
+	
+	
+	
+	select gActiveHazards
+		case 6:
+			updateColours(55, 55, 36)
+		endcase
+		case 7:
+			updateColours(216, 152, 82)
+		endcase
+		case 8:
+			updateColours(22, 206, 226)
+		endcase
+		case 9:
+			updateColours(124, 115, 242)
+		endcase
+		case 10:
+			updateColours(84, 201, 50)
+		endcase
+	endselect
+endfunction
 	
 function startGame()
 	hideMenu()
