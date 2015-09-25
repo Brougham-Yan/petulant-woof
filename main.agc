@@ -30,6 +30,7 @@ global gGameMode
 global gNextSpawn#
 global gNextEffect#
 global gHighScore as integer
+global controlStyle = 1
 readScores()
 initializeSettings()
 					
@@ -101,8 +102,6 @@ function nextZone()
 	if gActiveHazards < 10 then inc gActiveHazards
 		gNextLevel# = 30
 		inc gTargetSpeed#, 5
-	
-	
 	
 	select gActiveHazards
 		case 6:
@@ -328,4 +327,8 @@ function debugInfo()
 	print(str(settings.SFX))
 	printc("bgm: ")
 	print(str(settings.BGM))
+	printc("p1Y: ")
+	print(str(GetSpriteY(p1.sprite)))
+	printc("p1Yt: ")
+	print(str(p1.target#))
 endfunction
