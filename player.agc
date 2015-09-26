@@ -70,7 +70,18 @@ function updatePlayer()
 		
 		case 1:
 			p1.velocity# = 0
-			if GetPointerState() = 1 then p1.target# = GetPointerY() - 7.5
+			if p1.antigravTime# > 0
+				if GetPointerState() = 1 then p1.target# =  100 - (GetPointerY() -7.5)
+				dec p1.antigravTime#, timeSinceLastTick#
+				if p1.antigravTime# = 0
+					SetSpriteFlip(p1.sprite, 0, 0)
+				elseif p1.antigravTime# < 0
+					SetSpriteFlip(p1.sprite, 0, 0)
+				endif
+			else
+				if GetPointerState() = 1 then p1.target# = GetPointerY() - 7.5
+			endif
+			
 			if p1.target# > getSpriteY(p1.sprite) + 2.5
 				setSpriteY(p1.sprite, getSpriteY(p1.sprite) + (25 * timeSinceLastTick#))
 				SetSpriteAngle(p1.sprite, 5)
@@ -82,6 +93,7 @@ function updatePlayer()
 			else
 				SetSpriteAngle(p1.sprite, 0)
 			endif
+			
 		endcase
 	endselect
 	
