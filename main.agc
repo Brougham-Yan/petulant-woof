@@ -59,13 +59,13 @@ DeleteSprite(splash) //end loading
 do //main game loop
     if gGameMode = 0 //main menu
 		gameMenu()
-		updateBackground() 
+		//updateBackground() 
     elseif gGameMode = 1 //main game mode
 		mainGame()
 		updateBackground()
     elseif gGameMode = 2 //options menu
 		gamePaused()
-		updateBackground()
+		//updateBackground()
     elseif gGameMode = 3 //paused
 		optionsMenu()
 	elseif gGameMode = 4 //game over
@@ -138,8 +138,13 @@ endfunction
 
 function gameMenu()
 	if GetPointerReleased() = 1
-		if GetSpriteHit(GetPointerX(), GetPointerY()) = buttons.start then startGame()
-		if GetSpriteHit(GetPointerX(), GetPointerY()) = buttons.options then openOptions()
+		if GetSpriteHit(GetPointerX(), GetPointerY()) = buttons.start 
+			controlStyle = 0
+			startGame()
+		elseif GetSpriteHit(GetPointerX(), GetPointerY()) = buttons.start1
+			controlStyle = 1
+			startGame()
+		elseif GetSpriteHit(GetPointerX(), GetPointerY()) = buttons.options then openOptions()
 	endif
 endfunction
 
@@ -147,6 +152,9 @@ function showMenu()
 	buttons.start = CreateSprite(0)
 	SetSpritePosition(buttons.start, 50, 20)
 	SetSpriteSize(buttons.start, 20, 10)
+	buttons.start1 = CreateSprite(0)
+	SetSpritePosition(buttons.start1, 50, 35)
+	SetSpriteSize(buttons.start1, 20, 10)
 	buttons.options = CreateSprite(0)
 	SetSpritePosition(buttons.options, 50, 60)
 	setspritesize(buttons.options, 20, 10)
@@ -155,6 +163,7 @@ endfunction
 
 function hideMenu()
 	DeleteSprite(buttons.start)
+	DeleteSprite(buttons.start1)
 	DeleteSprite(buttons.options)
 endfunction
 
